@@ -156,6 +156,5 @@ namespace GarageApp
         }
     }
 
-    // ... [The rest of the AppMenu class you provided remains unchanged]
 }
 

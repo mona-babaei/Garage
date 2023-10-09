@@ -24,5 +24,4 @@ public class Vehicle : IVehicle
     }
 }
 
-/* uniq nummer per vehicle t.ex registeringnummer  */
 
