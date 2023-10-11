@@ -24,6 +24,10 @@ namespace GarageApp
 
         }
 
+        public override string ToString()
+        {
+            return base.ToString() + $", Fuel: {FuelType}, Taxi: {IsTaxi}";
+        }
 
     }
 }

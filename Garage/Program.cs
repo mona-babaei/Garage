@@ -1,5 +1,4 @@
-﻿
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -13,7 +12,9 @@ namespace GarageApp
     {
         private static object value;
 
-        static void Main(string[] args, object value)
+        public static IHandler GarageHandler { get;  set; }
+
+        static void Main(string[] args)
         {
             Garage<IVehicle> garage = new
                 Garage<IVehicle>(6);
@@ -28,10 +29,10 @@ namespace GarageApp
                 garage.AddVehicle(new Boat { Registreringsnummer = $"ABC{127+i}" });
             }
 
-           // Garage<IVehicle> garage = new
+            Garage<IVehicle> _garage = new
             Garage<IVehicle>(30);
             
-            AppMenu ui = new AppMenu (garageHandler, 30);
+            AppMenu ui = new AppMenu (GarageHandler, 30);
             ui.Run();
         }
 

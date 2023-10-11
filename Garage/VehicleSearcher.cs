@@ -6,6 +6,7 @@ namespace GarageApp
     internal class GarageHandler : IHandler
     {
         private Garage<IVehicle> _garage;
+        private object vehicle;
 
         public GarageHandler(int capacity)
         {
@@ -24,7 +25,7 @@ namespace GarageApp
 
         public IVehicle FindVehicleByRegNumber(string registeringsnummer)
         {
-            return _garage.GetAllVehicles().FirstOrDefault(vehicle => Vehicle.Registreringsummer == registeringsnummer);
+            return _garage.GetAllVehicles().FirstOrDefault(vehicle => vehicle.Registreringsummer == registeringsnummer);
         }
 
         public IEnumerable<IVehicle> FindVehiclesByProperties(string color, int numberOfWheels)

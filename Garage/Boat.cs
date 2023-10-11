@@ -3,7 +3,7 @@ namespace GarageApp
 {
     public class Boat : Vehicle
     {
-
+        private object? BoatType;
 
         public bool IsSport { get; set; }
         public bool IsCargoBoat { get; set; }
@@ -17,10 +17,15 @@ namespace GarageApp
         {
             Console.WriteLine("Boat stopped.");
         }
+        public override string ToString()
+        {
+            return base.ToString() + $", Type: {BoatType}";
+        }
+
+
+    }
     }
 
 
-
-}
 
 
