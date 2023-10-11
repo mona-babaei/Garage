@@ -62,7 +62,7 @@ namespace GarageApp
             Console.WriteLine("Provide the vehicle registration number:");
             string regNum = Console.ReadLine().ToUpper();
 
-            // ... Additional vehicle properties can be added as needed ...
+            // ... lägg till vehicle properties om behövs
 
             Vehicle newVehicle = new Vehicle { Registreringsnummer = regNum };
             if (garage.AddVehicle(newVehicle))

@@ -1,97 +1,49 @@
 ﻿using System;
 using System.Drawing;
+using System.Collections.Generic;
 namespace GarageApp
 {
-
-
-
-
-    internal class VehicleSearcher1<T> : IHandler where T : IVehicle
+    internal class GarageHandler : IHandler
     {
-        private Garage<T>? _garage;
+        private Garage<IVehicle> _garage;
 
-        public VehicleSearcher1(Garage<T> garage)
+        public GarageHandler(int capacity)
         {
-            _garage = garage;
-        }
-
-        public IVehicle? FindVehicleByRegNumber(string registreringsnummer)
-        {
-            return
-                _garage.GetAllVehicles().FirstOrDefault(v => string.Equals(v?.Registreringsnummer?.ToLower(), registreringsnummer.ToLower());
-        }
-
-        public IEnumerable<T> FindVehiclesByProperties(string color, int numberOfWheels)
-        {
-            return
-                _garage.GetAllVehicles().Where(v => (string.IsNullOrEmpty(color) || v.Color.ToLower() == color.ToLower())
-                && (numberOfWheels == 0 || v.NumberOfWheels == numberOfWheels)).ToList();
-        }
-
-        public IEnumerable<T> FindVehicleByFuelType(string FuelType)
-        {
-
-            return
-                _garage.GetAllVehicles().Where(V => V.FuelType.ToLower() == FuelType.ToLower()).ToList();
-        }
-
-        public IEnumerable<T> FindAllTaxis()
-        {
-            return
-                _garage.GetAllVehicles().Where(v =>
-                v.IsTaxi).ToList();
-
-
-
-
-
+            _garage = new Garage<IVehicle>(capacity);
         }
 
         public bool AddVehicle(IVehicle vehicle)
         {
-            throw new NotImplementedException();
+            return _garage.AddVehicle(vehicle);
         }
 
         public bool RemoveVehicle(string registeringsnummer)
         {
-            throw new NotImplementedException();
+            return _garage.RemoveVehicle(registeringsnummer);
         }
 
-        IEnumerable<IVehicle> IHandler.FindVehiclesByProperties(string color, int numberOfWheels)
+        public IVehicle FindVehicleByRegNumber(string registeringsnummer)
         {
-            throw new NotImplementedException();
+            return _garage.GetAllVehicles().FirstOrDefault(vehicle => Vehicle.Registreringsummer == registeringsnummer);
+        }
+
+        public IEnumerable<IVehicle> FindVehiclesByProperties(string color, int numberOfWheels)
+        {
+            return _garage.GetAllVehicles()
+                          .Where(vehicle => vehicle.Color.ToLower() == color.ToLower() && vehicle.NumberOfWheels == numberOfWheels)
+                          .ToList();
         }
 
         public IEnumerable<IVehicle> GetVehicles()
         {
-            throw new NotImplementedException();
+            return _garage.GetVehicles();
         }
 
         public int DisplayVehicleCount()
         {
-            throw new NotImplementedException();
+            return _garage.GetAllVehicles().Count();
         }
 
-        public void FindvehicleByRegNumber()
-        {
-            throw new NotImplementedException();
-        }
-
-        void IHandler.VehicleSearcher1()
-        {
-            throw new NotImplementedException();
-        }
     }
-
-  
-    
-    
 }
-
-
-
-
-
-
-
-
+    

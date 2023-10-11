@@ -11,7 +11,9 @@ namespace GarageApp
 
     class Program 
     {
-        static void Main(string[] args)
+        private static object value;
+
+        static void Main(string[] args, object value)
         {
             Garage<IVehicle> garage = new
                 Garage<IVehicle>(6);
@@ -26,19 +28,25 @@ namespace GarageApp
                 garage.AddVehicle(new Boat { Registreringsnummer = $"ABC{127+i}" });
             }
 
-            VehicleSearcher<IVehicle> vehicleSearcher = new VehicleSearcher<IVehicle>(garage);
-            AppMenu ui = new AppMenu ((IHandler)vehicleSearcher, 30);
+           // Garage<IVehicle> garage = new
+            Garage<IVehicle>(30);
+            
+            AppMenu ui = new AppMenu (garageHandler, 30);
             ui.Run();
         }
 
+        private static object Garage<T>(int v)
+        {
+            throw new NotImplementedException();
+        }
     }
 
-    internal class VehicleSearcher<T>  where T :IVehicle
+    internal class GarageHandlerr<T>  where T :IVehicle
     {
         
         private Garage<T> _garage;
 
-        public VehicleSearcher(Garage<T> garage)
+        public GarageHandlerr(Garage<T> garage)
         {
             _garage = garage;
         }

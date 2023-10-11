@@ -1,8 +1,8 @@
 ﻿using System;
-using System.Security.Cryptography;
+using System.Collections.Generic;
 
-namespace GarageApp;
-
+namespace GarageApp
+{
 public interface IHandler 
 {
 	bool AddVehicle(IVehicle vehicle);
@@ -12,12 +12,11 @@ public interface IHandler
     FindVehiclesByProperties(string color, int numberOfWheels);
     IEnumerable<IVehicle> GetVehicles();
 	int DisplayVehicleCount();
-	void FindvehicleByRegNumber();
-	void VehicleSearcher1();
+	
+   
+}        
 
-   }        
-
-
+}
 
 
 
