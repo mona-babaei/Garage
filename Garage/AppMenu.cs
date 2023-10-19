@@ -3,17 +3,30 @@ namespace GarageApp
 {
     public class AppMenu
     {
-        private IHandler garage;
+        private IHandler handlder;
         private int garageCapacity;
 
-        public AppMenu(IHandler garage, int garageCapacity)
-        {
-            this.garage = garage;
-            this.garageCapacity = garageCapacity;
-        }
 
         public void Run()
         {
+            bool success = false;
+            do
+            {
+
+                Console.WriteLine("Enter capacity for garage");
+
+                if (int.TryParse(Console.ReadLine()!, out int capacity))
+                {
+                    this.handlder = new GarageHandler(capacity);
+                    garageCapacity = capacity;
+                    success = true;
+
+                }
+
+            } while (!success);
+
+
+
             while (true)
             {
                 Console.WriteLine("\nSelect an option:");
@@ -59,13 +72,49 @@ namespace GarageApp
 
         public void AddVehicle()
         {
-            Console.WriteLine("Provide the vehicle registration number:");
-            string regNum = Console.ReadLine().ToUpper();
 
-            // ... lägg till vehicle properties om behövs
+            //Men choose wich type of vehicle?
+            Console.WriteLine("1. Car");
+            Console.WriteLine("2. Bus");
 
-            Vehicle newVehicle = new Vehicle { Registreringsnummer = regNum };
-            if (garage.AddVehicle(newVehicle))
+            var input = Console.ReadLine()!;
+            IVehicle vehicle = default!;
+
+            switch (input)
+            {
+                case "1":
+                    var carProps = GetCommonVehicleValues();
+                    //Ask for specif property for car: IsSport
+                    vehicle = new Car()
+                    {
+                        Color = carProps.Color,
+                        Registreringsnummer = carProps.Registreringsnummer,
+                        IsSport = true,
+                        NumberOfWheels = carProps.NumberOfWheels,
+                    };
+
+
+
+                    break;
+                case "2":
+                    var busProps = GetCommonVehicleValues();
+                    //Ask for specifik bus values
+                    //Create bus instance
+                    
+
+                    break; 
+                
+                case "3":
+                    var airplaneProps = GetCommonVehicleValues();
+
+                    break;
+
+                default:
+                    Console.WriteLine("Wrong input...");
+                    break;
+            }
+
+            if (handlder.AddVehicle(vehicle))
             {
                 Console.WriteLine("Vehicle added successfully.");
             }
@@ -75,12 +124,47 @@ namespace GarageApp
             }
         }
 
+        private VehicleDTO GetCommonVehicleValues()
+        {
+            var vehicleDTO = new VehicleDTO();
+            bool success = false;
+            do
+            {
+
+                Console.WriteLine("Provide the vehicle registration number:");
+                var regNo = Console.ReadLine().ToUpper();
+                var found = handlder.FindVehicleByRegNumber(regNo);
+
+                if (found != null)
+                {
+                    Console.WriteLine("${regNo} alaready is in garage");
+                }
+                else
+                {
+                    vehicleDTO.Registreringsnummer = regNo;
+                    success = true;
+                }
+
+            } while (!success);
+
+
+           Console.WriteLine("Provide the color:");
+            string color = Console.ReadLine();
+
+            //Validate color not empty
+            vehicleDTO.Color = color;
+            //Ask for rest of the propertys
+
+
+            return vehicleDTO;
+        }
+
         public void RemoveVehicle()
         {
             Console.WriteLine("Enter the registration number of the vehicle to remove:");
             string regNum = Console.ReadLine().ToUpper();
 
-            if (garage.RemoveVehicle(regNum))
+            if (handlder.RemoveVehicle(regNum))
             {
                 Console.WriteLine($"Vehicle {regNum} removed successfully.");
             }
@@ -92,7 +176,7 @@ namespace GarageApp
 
         public void DisplayVehicles()
         {
-            var vehicles = garage.GetVehicles();
+            var vehicles = handlder.GetVehicles();
 
             if (vehicles.Any())
             {
@@ -112,7 +196,7 @@ namespace GarageApp
             Console.WriteLine("Enter the registration number:");
             string regNum = Console.ReadLine().ToUpper();
 
-            var vehicle = garage.GetVehicles().FirstOrDefault(v => v.Registreringsnummer.Equals(regNum, StringComparison.OrdinalIgnoreCase));
+            var vehicle = handlder.GetVehicles().FirstOrDefault(v => v.Registreringsnummer.Equals(regNum, StringComparison.OrdinalIgnoreCase));
             if (vehicle != null)
             {
                 Console.WriteLine(vehicle.ToString());
@@ -135,7 +219,7 @@ namespace GarageApp
                 Console.WriteLine("Invalid input. Please enter a valid number for wheels.");
             }
 
-            var vehicles = garage.GetVehicles().Where(v => v.Color.Equals(color, StringComparison.OrdinalIgnoreCase) && v.NumberOfWheels == numberOfWheels);
+            var vehicles = handlder.GetVehicles().Where(v => v.Color.Equals(color, StringComparison.OrdinalIgnoreCase) && v.NumberOfWheels == numberOfWheels);
             if (vehicles.Any())
             {
                 foreach (var vehicle in vehicles)
@@ -151,7 +235,7 @@ namespace GarageApp
 
         public void DisplayVehicleCount()
         {
-            var count = garage.GetVehicles().Count();
+            var count = handlder.GetVehicles().Count();
             Console.WriteLine($"There are {count} vehicles in the garage.");
         }
     }

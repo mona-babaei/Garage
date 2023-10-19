@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 
 
 namespace GarageApp
@@ -6,6 +7,7 @@ namespace GarageApp
     public class Garage<T> : IEnumerable<T> where T : IVehicle
     {
         private T[] vehiclesArray;
+        public int Count { get; private set; } = 0;
 
         public Garage(int capacity)
         {
@@ -21,7 +23,7 @@ namespace GarageApp
             }
         }
 
-        System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
+        IEnumerator IEnumerable.GetEnumerator()
         {
             return GetEnumerator();
         }
@@ -33,7 +35,8 @@ namespace GarageApp
                 if (vehiclesArray[i] == null)
                 {
                     vehiclesArray[i] = vehicle;
-                    Console.WriteLine($"Vehicle {vehicle.Registreringsnummer} has been parked.");
+                   // Console.WriteLine($"Vehicle {vehicle.Registreringsnummer} has been parked.");
+                   Count++;
                     return true;
                 }
             }
@@ -49,6 +52,7 @@ namespace GarageApp
                 {
                     vehiclesArray[i] = default(T);
                     Console.WriteLine($"Vehicle {registreringsnummer} has been removed from the garage.");
+                    Count--;
                     return true;
                 }
             }
@@ -56,21 +60,21 @@ namespace GarageApp
             return false;
         }
 
-        public IEnumerable<T> GetAllVehicles()
-        {
-            return vehiclesArray.Where(vehicle => vehicle != null);
-        }
+        //public IEnumerable<T> GetAllVehicles()
+        //{
+        //    return vehiclesArray.Where(vehicle => vehicle != null);
+        //}
 
         public void DisplayVehicleCount()
         {
-            var count = vehiclesArray.Count(vehicle => vehicle != null);
-            Console.WriteLine($"There are {count} vehicles in the garage.");
+           // var count = vehiclesArray.Count(vehicle => vehicle != null);
+            Console.WriteLine($"There are {Count} vehicles in the garage.");
         }
 
-        public IEnumerable<IVehicle> GetVehicles()
-        {
-            return vehiclesArray.OfType<IVehicle>();
-        }
+        //public IEnumerable<IVehicle> GetVehicles()
+        //{
+        //    return vehiclesArray.OfType<IVehicle>();
+        //}
     }
 
 }

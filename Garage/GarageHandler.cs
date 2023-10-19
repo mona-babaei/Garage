@@ -23,26 +23,26 @@ namespace GarageApp
             return _garage.RemoveVehicle(registeringsnummer);
         }
 
-        public IVehicle FindVehicleByRegNumber(string registeringsnummer)
+        public IVehicle? FindVehicleByRegNumber(string registeringsnummer)
         {
-            return _garage.GetAllVehicles().FirstOrDefault(vehicle => vehicle.Registreringsummer == registeringsnummer);
+            return _garage.FirstOrDefault(vehicle => vehicle.Registreringsnummer == registeringsnummer);
         }
 
         public IEnumerable<IVehicle> FindVehiclesByProperties(string color, int numberOfWheels)
         {
-            return _garage.GetAllVehicles()
-                          .Where(vehicle => vehicle.Color.ToLower() == color.ToLower() && vehicle.NumberOfWheels == numberOfWheels)
+            return _garage.Where(vehicle => vehicle.Color.ToLower() == color.ToLower() && vehicle.NumberOfWheels == numberOfWheels)
                           .ToList();
         }
 
         public IEnumerable<IVehicle> GetVehicles()
         {
-            return _garage.GetVehicles();
+            return _garage.ToList();
+            //return _garage.GetVehicles();
         }
 
         public int DisplayVehicleCount()
         {
-            return _garage.GetAllVehicles().Count();
+            return _garage.Count;
         }
 
     }
